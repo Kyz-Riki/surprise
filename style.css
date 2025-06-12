@@ -1,0 +1,1087 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+:root {
+  --bg-color: #fff9ec;
+  --text-color: #111111;
+  --primary-accent: #ff006e;
+  --secondary: #3a86ff;
+  --outline: #000000;
+  --card-bg: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] {
+  --bg-color: #1e1e1e;
+  --text-color: #ffffff;
+  --primary-accent: #ffbe0b;
+  --secondary: #fb5607;
+  --outline: #ffffff;
+  --card-bg: #2a2a2a;
+  --shadow: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Press Start 2P", monospace;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* Intro Animation - Update */
+.intro-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: all 0.5s ease;
+  padding: 20px; /* Tambah padding untuk mobile */
+}
+
+.intro-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Ganti pixel-heart dengan chibi-logo */
+.chibi-logo {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  animation: logoFloat 2s ease-in-out infinite;
+  margin-bottom: 30px;
+}
+
+.chibi-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: 4px solid var(--outline);
+  background: var(--card-bg);
+  padding: 10px;
+  filter: drop-shadow(4px 4px 0 var(--outline));
+}
+
+@keyframes logoFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.05);
+  }
+}
+
+/* Update typing text untuk responsive */
+.typing-text {
+  font-size: 16px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid var(--primary-accent);
+  animation: typing 3s steps(30, end), blink-caret 0.75s step-end infinite;
+  max-width: 90%; /* Batasi lebar maksimal */
+  line-height: 1.4;
+}
+
+/* Alternative responsive text yang lebih smart */
+@media (max-width: 768px) {
+  .typing-text {
+    font-size: 12px;
+    white-space: normal;
+    overflow: visible;
+    border-right: none;
+    animation: smartTyping 3s ease forwards;
+    opacity: 0;
+    text-align: center;
+    line-height: 1.6;
+    max-width: 95%;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .typing-text {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .typing-text {
+    font-size: 8px;
+    line-height: 1.8;
+  }
+}
+
+@keyframes smartTyping {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Main Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 4s;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  padding-top: 60px; /* Tambah ruang untuk tombol */
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 0;
+  right: 120px; /* Pindah lebih ke kiri agar tidak tabrakan */
+  background: var(--secondary);
+  color: var(--bg-color);
+  border: 4px solid var(--outline);
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: 10px; /* Kecilkan sedikit */
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--outline);
+}
+
+.music-toggle {
+  position: absolute;
+  top: 0;
+  right: 0; /* Tetap di pojok kanan */
+  background: var(--primary-accent);
+  color: var(--bg-color);
+  border: 4px solid var(--outline);
+  padding: 10px 15px;
+  font-family: inherit;
+  font-size: 10px; /* Kecilkan sedikit */
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.music-toggle:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--outline);
+}
+
+.music-toggle.playing {
+  animation: musicPulse 1s infinite;
+}
+
+@keyframes musicPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.title {
+  font-size: 24px;
+  color: var(--primary-accent);
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 0 var(--outline);
+  margin-top: 20px; /* Tambah jarak dari tombol */
+}
+
+.subtitle {
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+/* Pixel Characters */
+.pixel-couple {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 30px 0;
+}
+
+.pixel-char {
+  width: 60px;
+  height: 80px;
+  background: linear-gradient(
+    90deg,
+    transparent 20%,
+    var(--primary-accent) 20% 80%,
+    transparent 80%
+  );
+  position: relative;
+  animation: bounce 2s infinite alternate;
+}
+
+.pixel-char:nth-child(2) {
+  background: linear-gradient(
+    90deg,
+    transparent 20%,
+    var(--secondary) 20% 80%,
+    transparent 80%
+  );
+  animation-delay: 0.5s;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Navigation Cards */
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin: 40px 0;
+}
+
+.nav-card {
+  background: var(--card-bg);
+  border: 4px solid var(--outline);
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0 var(--shadow);
+}
+
+.nav-card h3 {
+  color: var(--primary-accent);
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.nav-card p {
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--card-bg);
+  border: 4px solid var(--outline);
+  padding: 30px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalPop 0.3s ease;
+}
+
+@keyframes modalPop {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: var(--primary-accent);
+  color: var(--bg-color);
+  border: none;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+/* Love Letter Styles */
+.love-letter {
+  text-align: center;
+}
+
+.envelope {
+  width: 200px;
+  height: 120px;
+  background: var(--secondary);
+  border: 3px solid var(--outline);
+  margin: 20px auto;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.envelope:hover {
+  transform: scale(1.05);
+}
+
+.envelope::before {
+  content: "💌";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+}
+
+.letter-content {
+  display: none;
+  margin-top: 20px;
+  font-size: 10px;
+  line-height: 1.8;
+  text-align: left;
+}
+
+.letter-content.show {
+  display: block;
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gallery Styles */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.memory-card {
+  aspect-ratio: 1;
+  background: var(--secondary);
+  border: 3px solid var(--outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.memory-card:hover {
+  transform: scale(1.05);
+}
+
+.memory-card::before {
+  display: none; /* Hide the camera emoji since we now show actual photos */
+}
+
+/* Game Styles */
+.game-container {
+  text-align: center;
+}
+
+.game-area {
+  width: 400px;
+  height: 300px;
+  background: var(--card-bg);
+  border: 4px solid var(--outline);
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.heart-target {
+  position: absolute;
+  font-size: 30px;
+  cursor: pointer;
+  animation: float 3s infinite;
+  user-select: none;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.score {
+  font-size: 16px;
+  color: var(--primary-accent);
+  margin: 20px 0;
+}
+
+.game-btn {
+  background: var(--primary-accent);
+  color: var(--bg-color);
+  border: 3px solid var(--outline);
+  padding: 15px 25px;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  margin: 10px;
+  transition: all 0.2s ease;
+}
+
+.game-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--outline);
+}
+
+/* Surprise Styles */
+.surprise-container {
+  text-align: center;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Playlist Modal Styles */
+.playlist-modal {
+  max-width: 800px;
+  max-height: 90vh;
+}
+
+/* Music Player Styles */
+.music-player {
+  background: linear-gradient(135deg, var(--secondary), var(--primary-accent));
+  border: 4px solid var(--outline);
+  padding: 25px;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.music-player::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1) 0px,
+    rgba(255, 255, 255, 0.1) 2px,
+    transparent 2px,
+    transparent 10px
+  );
+  animation: musicPattern 20s linear infinite;
+}
+
+@keyframes musicPattern {
+  0% {
+    transform: translateX(-100px) translateY(-100px);
+  }
+  100% {
+    transform: translateX(100px) translateY(100px);
+  }
+}
+
+.now-playing {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.song-info {
+  text-align: left;
+  flex: 1;
+}
+
+.current-song-title {
+  color: var(--bg-color);
+  font-size: 12px;
+  margin-bottom: 5px;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.current-artist {
+  color: var(--bg-color);
+  font-size: 8px;
+  opacity: 0.9;
+}
+
+.album-cover {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.vinyl-record {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(
+    circle,
+    #1a1a1a 30%,
+    #333 31%,
+    #333 40%,
+    #1a1a1a 41%
+  );
+  border-radius: 50%;
+  position: relative;
+  animation: spin 3s linear infinite;
+  border: 3px solid var(--outline);
+}
+
+.vinyl-record.paused {
+  animation-play-state: paused;
+}
+
+.vinyl-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: var(--primary-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--bg-color);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.progress-container {
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: var(--bg-color);
+  font-size: 8px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--outline);
+  cursor: pointer;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--bg-color);
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+.player-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.control-btn {
+  background: var(--bg-color);
+  border: 3px solid var(--outline);
+  width: 45px;
+  height: 45px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--outline);
+}
+
+.play-pause-btn {
+  width: 55px;
+  height: 55px;
+  background: var(--primary-accent);
+  color: var(--bg-color);
+  font-size: 20px;
+}
+
+.control-btn.active {
+  background: var(--primary-accent);
+  color: var(--bg-color);
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.volume-container span {
+  color: var(--bg-color);
+  font-size: 16px;
+}
+
+.volume-slider {
+  width: 100px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--outline);
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--bg-color);
+  border: 2px solid var(--outline);
+  cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--bg-color);
+  border: 2px solid var(--outline);
+  cursor: pointer;
+  border-radius: 0;
+}
+
+/* Playlist Styles */
+.playlist-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.playlist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.playlist-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: var(--card-bg);
+  border: 3px solid var(--outline);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.playlist-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.playlist-item.active {
+  background: var(--primary-accent);
+  color: var(--bg-color);
+}
+
+.playlist-item.playing {
+  background: var(--secondary);
+  color: var(--bg-color);
+}
+
+.playlist-item.playing::after {
+  content: "🎵";
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: musicNote 1s infinite;
+}
+
+@keyframes musicNote {
+  0%,
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.2);
+  }
+}
+
+.song-number {
+  font-size: 12px;
+  color: var(--primary-accent);
+  margin-right: 15px;
+  min-width: 20px;
+}
+
+.playlist-item.active .song-number,
+.playlist-item.playing .song-number {
+  color: var(--bg-color);
+}
+
+.song-details {
+  flex: 1;
+}
+
+.song-title {
+  font-size: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.song-artist {
+  font-size: 8px;
+  opacity: 0.7;
+}
+
+.song-duration {
+  font-size: 8px;
+  color: var(--text-color);
+  opacity: 0.6;
+}
+
+.playlist-item.active .song-duration,
+.playlist-item.playing .song-duration {
+  color: var(--bg-color);
+}
+
+/* Button Container - untuk layout yang lebih rapi */
+.button-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .button-container {
+    position: relative;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 18px;
+  }
+  .subtitle {
+    font-size: 12px;
+  }
+  .nav-card {
+    padding: 20px;
+  }
+  .game-area {
+    width: 300px;
+    height: 200px;
+  }
+
+  /* Perbaiki posisi tombol di mobile */
+  .header {
+    padding-top: 80px;
+  }
+
+  .theme-toggle,
+  .music-toggle {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+    top: auto;
+    right: auto;
+  }
+
+  .button-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .playlist-modal {
+    max-width: 95%;
+    padding: 15px;
+  }
+
+  .now-playing {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .song-info {
+    text-align: center;
+  }
+
+  .player-controls {
+    gap: 10px;
+  }
+
+  .control-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .play-pause-btn {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Custom Scrollbar untuk seluruh halaman */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border: 2px solid var(--outline);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-accent);
+  border: 2px solid var(--outline);
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg-color);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-accent) var(--bg-color);
+}
+
+/* Custom scrollbar untuk modal content */
+.modal-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: var(--card-bg);
+  border: 2px solid var(--outline);
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border: 2px solid var(--outline);
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-accent);
+}
+
+/* Custom scrollbar untuk playlist modal */
+.playlist-modal::-webkit-scrollbar {
+  width: 10px;
+}
+
+.playlist-modal::-webkit-scrollbar-track {
+  background: var(--card-bg);
+  border: 2px solid var(--outline);
+}
+
+.playlist-modal::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border: 2px solid var(--outline);
+}
+
+.playlist-modal::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-accent);
+}
+
+/* Custom scrollbar untuk playlist container */
+.playlist-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.playlist-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--outline);
+}
+
+.playlist-container::-webkit-scrollbar-thumb {
+  background: var(--bg-color);
+  border: 1px solid var(--outline);
+}
+
+.playlist-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Scrollbar untuk dark theme */
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--bg-color);
+  border: 2px solid var(--outline);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--primary-accent);
+  border: 2px solid var(--outline);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+[data-theme="dark"] .modal-content::-webkit-scrollbar-thumb {
+  background: var(--primary-accent);
+}
+
+[data-theme="dark"] .playlist-container::-webkit-scrollbar-thumb {
+  background: var(--primary-accent);
+}
+
+/* Animasi scrollbar hover effect */
+::-webkit-scrollbar-thumb {
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  transform: scale(1.1);
+}
+
+/* Scrollbar untuk mobile - lebih tipis */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .modal-content::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .playlist-container::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
+/* Decorative Elements */
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.star {
+  position: absolute;
+  color: var(--primary-accent);
+  font-size: 16px; /* Kecilkan sedikit */
+  animation: twinkle 3s infinite; /* Perlambat animasi */
+  opacity: 0.6; /* Kurangi opacity agar tidak terlalu dominan */
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
