@@ -129,31 +129,15 @@ if (!musicEnabled) {
 initBackgroundMusic();
 
 // Function untuk auto line break pada text panjang
-function formatTextForMobile(text, maxLength = 20) {
+function formatTextForMobile(text, maxLength = 15) {
   if (window.innerWidth <= 768) {
+    // Untuk mobile, bagi menjadi 2 baris yang seimbang
     const words = text.split(" ");
-    let lines = [];
-    let currentLine = [];
-    let currentLength = 0;
+    const midPoint = Math.ceil(words.length / 2);
+    const firstLine = words.slice(0, midPoint).join(" ");
+    const secondLine = words.slice(midPoint).join(" ");
 
-    words.forEach((word) => {
-      if (currentLength + word.length + 1 <= maxLength) {
-        currentLine.push(word);
-        currentLength += word.length + 1;
-      } else {
-        if (currentLine.length > 0) {
-          lines.push(currentLine.join(" "));
-        }
-        currentLine = [word];
-        currentLength = word.length;
-      }
-    });
-
-    if (currentLine.length > 0) {
-      lines.push(currentLine.join(" "));
-    }
-
-    return lines.join("<br>");
+    return `${firstLine}<br>${secondLine}`;
   }
   return text;
 }
@@ -165,29 +149,45 @@ function initIntroText() {
   const isMobile = window.innerWidth <= 768;
 
   if (isMobile) {
+    // Untuk mobile: text dengan line break dan fade animation
     const formattedText = formatTextForMobile(originalText);
     typingText.innerHTML = formattedText;
     typingText.style.whiteSpace = "normal";
+    typingText.style.overflow = "visible";
+    typingText.style.borderRight = "none";
+    typingText.style.width = "auto";
     typingText.style.animation = "fadeInUp 2s ease forwards";
     typingText.style.animationDelay = "1s";
+    typingText.style.opacity = "0";
   } else {
+    // Untuk desktop: typing animation
     typingText.textContent = originalText;
     typingText.style.whiteSpace = "nowrap";
+    typingText.style.overflow = "hidden";
+    typingText.style.borderRight = "3px solid var(--primary-accent)";
+    typingText.style.width = "fit-content";
     typingText.style.animation =
       "typing 3s steps(30, end), blink-caret 0.75s step-end infinite";
+    typingText.style.animationDelay = "0s";
+    typingText.style.opacity = "1";
   }
 }
 
 // Panggil fungsi saat halaman dimuat
 document.addEventListener("DOMContentLoaded", () => {
-  initIntroText();
+  // Delay init text sedikit untuk memastikan CSS sudah loaded
+  setTimeout(() => {
+    initIntroText();
+  }, 100);
 
   // Re-check saat window diresize
   window.addEventListener("resize", () => {
     if (document.getElementById("introScreen").classList.contains("hidden")) {
       return; // Skip jika intro sudah selesai
     }
-    initIntroText();
+    setTimeout(() => {
+      initIntroText();
+    }, 100);
   });
 });
 
